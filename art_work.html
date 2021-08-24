@@ -1,0 +1,590 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Work Upploader</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link herf="css/style.css" rel="stylesheet">
+    <style>
+        .btnSubmit
+        {
+            border:none;
+            border-radius:1.5rem;
+            padding: 1%;
+            width: 50%;
+            margin-left: 150px;
+            cursor: pointer;
+            background: #0062cc;
+            color: #fff;
+        }
+        #upload {
+            opacity: 0;
+        }
+        
+        #upload-label {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+        }
+        
+        .image-area {
+            border: 2px dashed rgba(255, 255, 255, 0.7);
+            padding: 1rem;
+            position: relative;
+        }
+        
+        .image-area::before {
+            content: 'Uploaded image result';
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem;
+            z-index: 1;
+        }
+        
+        .image-area img {
+            z-index: 2;
+            position: relative;
+        }
+        .imguppload {
+            min-height: 10vh;
+            background-color: #757f9a;
+            background-image: linear-gradient(147deg, #757f9a 0%, #d7dde8 100%);
+        }        
+    </style>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <style class="cp-pen-styles">
+    .brick { width:100px; height:100px; background:#f2f2f2;}
+    .tile-picker  {
+    position:relative;
+    cursor:pointer; 
+    background-color:#eaeaea; 
+    background-position: center center;
+    background-size: cover;
+    box-shadow:inset 0 0 10px rgba(0,0,0,.1); 
+    outline: 2px solid #fff;
+    outline-offset: -3px;
+    border:1px solid #bbb;  }
+
+    .active.tile-picker { border-color: #aaa; }
+
+    .tile-picker input[type=checkbox] {
+    opacity:0;
+    position:absolute; 
+    left:-80px;  }
+
+    .tile-checked {
+    display:block; 
+    font-style:normal;  
+    width:20px; height:20px; 
+    position:absolute; 
+    top:-2px;
+    right:-4px;
+    }
+
+    .tile-checked:after {
+    content:'\2713';
+    display:block;
+    line-height:18px; width:18px; height:18px;
+    
+    background-color:#1481b8; color:#fff;
+    border-radius:2px;
+    font-size:13px;
+    text-align:center; font-weight:bold;
+    
+    opacity:0;
+    transition: opacity .34s ease-in-out; }
+
+
+    input[type=checkbox]:checked ~ .tile-checked:after {
+    opacity:1; }
+
+    .clearfix {
+      *zoom: 1;
+    }	
+    .clearfix:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+      
+    ul{
+      position: relative;
+      margin: 50px auto;
+      width: 800px;
+      padding: 0;
+      list-style: none;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 900;
+      font-size: 20px;
+      line-height: 40px;
+      color: #555;
+    } 
+    
+    
+    img {
+      position: absolute;
+      margin: auto;
+      top: 0; left: 0; bottom: 0; right: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 1px;
+      box-shadow: 0 0 0 4px #fff;
+      cursor: pointer;
+      animation:        unselected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+      -o-animation:     unselected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+      -ms-animation:    unselected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+      -moz-animation:   unselected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+      -webkit-animation: unselected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+    }
+    
+    @keyframes unselected {
+      0% { box-shadow: 0 0 0 4px #00c09e; }
+      50% { transform: scale(0.5); opacity: 0.8; box-shadow: 0 0 0 4px #fff; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #fff; }
+    }
+    @-o-keyframes unselected {
+      0% { box-shadow: 0 0 0 4px #00c09e; }
+      50% { -o-transform: scale(0.5); opacity: 0.8; box-shadow: 0 0 0 4px #fff; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #fff; }
+    }
+    @-ms-keyframes unselected {
+      0% { box-shadow: 0 0 0 4px #00c09e; }
+      50% { width: 45%; height: 45%; opacity: 0.8; box-shadow: 0 0 0 4px #fff; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #fff; }
+    }
+    @-moz-transition unselected {
+      0% { box-shadow: 0 0 0 4px #00c09e; }
+      50% { -moz-transform: scale(0.5); opacity: 0.8; box-shadow: 0 0 0 4px #fff; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #fff; }
+    }
+    @-webkit-keyframes unselected {
+      0% { box-shadow: 0 0 0 4px #00c09e; }
+      50% { -webkit-transform: scale(0.5); opacity: 0.8; box-shadow: 0 0 0 4px #fff; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #fff; }
+    }
+    
+    li {
+      position: relative;
+      margin: 10px;
+      width: 157px;
+      height: 157px;
+      float: left;
+    }
+    
+    li:before {
+      content: "\2714";
+      display: block;
+      position: absolute;
+      margin: auto;
+      top: 0; left: 0; bottom: 0; right: 0;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      background:  #00c09e;
+      border-radius: 50px;
+      color: #fff;
+      text-align: center;
+      font-size: 16px;
+      z-index: 10;
+      opacity: 0;
+      transition:         0.3s linear;
+      -o-transition:      0.3s linear;
+      -ms-transition:     0.3s linear;
+      -moz-transition:    0.3s linear;
+      -webkit-transition: 0.3s linear;
+      -o-user-select:      none;
+      -moz-user-select:    none;
+      -webkit-user-select: none;
+      cursor: pointer;
+    }
+    
+    li.selected:before {
+      opacity: 1;
+    }
+    
+    /* img selection */
+    
+    li.selected img {
+      box-shadow: 0 0 0 4px #00c09e;
+      animation:        selected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+      -o-animation:     selected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+      -ms-animation:    selected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+      -moz-animation:   selected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+      -webkit-animation: selected 0.3s cubic-bezier(0.250, 0.100, 0.250, 1.000);
+    }
+    
+    @keyframes selected {
+      0% { border-color: #fff; }
+      50% { transform: scale(0.5); opacity: 0.8; box-shadow: 0 0 0 4px #00c09e; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #00c09e; }
+    }
+    @-o-keyframes selected {
+      0% { box-shadow: 0 0 0 4px #fff; }
+      50% { -o-transform: scale(0.5); opacity: 0.8; box-shadow: 0 0 0 4px #00c09e; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #00c09e; }
+    }
+    @-ms-keyframes selected {
+      0% { box-shadow: 0 0 0 4px #fff; }
+      50% { width: 45%; height: 45%; opacity: 0.8; box-shadow: 0 0 0 4px #00c09e; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #00c09e; }
+    }
+    @-moz-transition selected {
+      0% { box-shadow: 0 0 0 4px #fff; }
+      50% { -moz-transform: scale(0.5); opacity: 0.8; box-shadow: 0 0 0 4px #00c09e; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #00c09e; }
+    }
+    @-webkit-keyframes selected {
+      0% { box-shadow: 0 0 0 4px #fff; }
+      50% { -webkit-transform: scale(0.5); opacity: 0.8; box-shadow: 0 0 0 4px #00c09e; }
+      80%,100% { width: 100%; height: 100%; box-shadow: 0 0 0 4px #00c09e; }
+    }
+    
+    </style>
+</head>
+<body>
+    <section>
+        <div class="container  register-for">
+            <h3 style="color:#0065BD">Artwork Uploader</h3>
+            <h5><b>Let’s get started!</b></h5>
+            <div class="row">
+                <div class="col-6">
+                    <p>Stahls’ is your custom cutting house. The process is easy, simply upload the art, we provide a proof, once you approve the design you’ll immediately be able to place an order. </p>
+                    <p>
+                        Order 1,2,3-colour or full-colour designs. We’ll do the cutting (and printing) and you only need to heat-apply the designs. </p>
+                    <p>Once you’ve submitted the artwork, you can view all the designs in My Artwork Dashboard. Here you’ll be able to manage your artwork, finished designs, place orders, and communicate with customer service. </p>
+                    <p>If you’re only looking for an estimated price but aren’t quite ready to move forward with a proof, you can save your artwork for later. </p>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="btnSubmit">Go To My Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section>
+        <div class="container">
+            <h4>Part 1: Artwork Uppload</h4>
+        </div>
+        <div class="container py-5 imguppload">
+            <!-- For demo purpose -->
+            <div class="row py-4">
+                <div class="col-lg-6 mx-auto">
+        
+                    <!-- Upload image input-->
+                    <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+                        <input id="upload" type="file" onchange="readURL(this);" class="form-control border-0">
+                        <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose file</label>
+                        <div class="input-group-append">
+                            <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> <i class="fa fa-cloud-upload mr-2 text-muted"></i><small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+                        </div>
+                    </div>
+        
+                    <!-- Uploaded image area-->
+                    <p class="font-italic text-white text-center">The image uploaded will be rendered inside the box below.</p>
+                    <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
+        
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section>
+        <div class="container">
+            <h4>Part 2: Select Service Type</h4>
+            <div class="row">  
+                <div class="col-12">
+                    <div class="clearfix">
+                      </div>
+                      <ul>
+                        <li><img src="imgs/01.jpg"/></li>
+                        <li><img src="imgs/02.jpg" /></li>
+                        <li><img src="imgs/03.jpg" /></li>
+                        <li><img src="imgs/04.jpg" /></li>
+                        <li><img src="imgs/05.jpg" /></li>
+                        <li><img src="imgs/06.jpg" /></li>
+                        <li><img src="imgs/07.png" /></li>
+                        <li><img src="imgs/08.jpg" /></li>
+                        <li><img src="imgs/05.png" /></li>
+                      </ul>
+                      <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+                      <script >// item selection
+                      $('li').click(function () {
+                        $(this).toggleClass('selected');
+                        if ($('li.selected').length == 0)
+                          $('.select').removeClass('selected');
+                        else
+                          $('.select').addClass('selected');
+                        counter();
+                      });
+                      
+                      // all item selection
+                      $('.select').click(function () {
+                        if ($('li.selected').length == 0) {
+                          $('li').addClass('selected');
+                          $('.select').addClass('selected');
+                        }
+                        else {
+                          $('li').removeClass('selected');
+                          $('.select').removeClass('selected');
+                        }
+                        counter();
+                      });
+                      
+                      // number of selected items
+                      function counter() {
+                        if ($('li.selected').length > 0)
+                          $('.send').addClass('selected');
+                        else
+                          $('.send').removeClass('selected');
+                        $('.send').attr('data-counter',$('li.selected').length);
+                      }
+                      
+                      //# sourceURL=pen.js
+                      </script>
+                </div>          
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section>
+        <div class="container">
+            <h4>Part 3: Select Custom Cut Product: </h4>
+            <div class="row">  
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary">CAD-CUT® Designs</button>
+                    <button type="button" class="btn btn-primary">Custom Cut Sign Vinyl </button>
+                    <button type="button" class="btn btn-primary">SimStitch® Designs</button>
+                    <button type="button" class="btn btn-primary">Standard Designs </button>
+                </div>           
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section>
+        <div class="container">
+            <h4>Part 6: Artwork Information</h4>
+            <div class="row">  
+                <div class="col-4">
+                    <label for="">Image Width</label>
+                    <input type="number" class="form-control" placeholder="Width">
+                    <label for="">Image Height</label>
+                    <input type="number" class="form-control" placeholder="Height">
+                    <label for="">Custom Color</label>
+                    <input type="color" class="form-control" placeholder="Color">
+                </div>   
+                <div class="col-3">
+                    <label for="">Design Name</label>
+                    <input type="number" class="form-control" placeholder="Design">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagePicker" style="width:200px; margin:5px auto;">Choose Colors</button>
+                </div>            
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section>
+        <div class="container">
+            <h4>Part 7: Special Instructions:</h4>
+            <div class="row">  
+                <div class="col-12">
+                    <h6><b>Have specific instructions for your artwork? Let us know.</b></h6>
+                    <textarea rows="3" cols="100"></textarea>
+                </div>          
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section>
+        <div class="container">
+            <h4>Part 8: Quote</h4>
+            <div class="row">
+                <p></p>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <h3>Quantity Price Breaks</h3>
+                        <span>-><b>9-24</b> $2.88</span><br>
+                        <span>-><b>25-74</b> $2.78</span><br>
+                        <span>-><b>75-249</b> $2.08</span><br>
+                        <span>-><b>250-499</b> $1.92</span><br>
+                        <span>-><b>500+</b> $1.96</span><br>
+                    <p>* Prices Subject To Change</p>
+                </div>   
+                <div class="col-7 imguppload">
+                    <h3>Price Calculator</h3>
+                    <input type="number" class="form-control" placeholder="Quanity">
+                    <br>
+                    <h4>Total Ammount</h4>
+                    <input type="number" class="form-control" placeholder="Value" value="0.00" disabled>
+                </div>            
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h3>Additional Fees</h3>
+                    <p><b>Raster Fee</b> $30.00 (Must be Paid before Proof Of Created)</p>
+                    <p>Onces A Artist revies additional Fees May Apply</p>
+                </div>       
+            </div>  
+        </div>
+    </section>
+    <hr>
+    <section>
+        <div class="container">
+            <h4>Part 9: Contact Information</h4>
+            <div class="row">  
+                <div class="col-4">
+                    <label for="">Name</label>
+                    <input type="test" class="form-control" placeholder="Name">
+                    <label for="">Email</label>
+                    <input type="email" class="form-control" placeholder="Email">
+                    <label for="">Phone</label>
+                    <input type="number" class="form-control" placeholder="Phone">
+                </div>              
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section>
+        <div class="container">
+            <button class="btn btn-success">Submit ArtWork</button>
+        </div>
+    </section>
+    
+<div class="modal" id="imagePicker">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="wall">
+          
+          <label class="brick tile-picker" style="background-color:red;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:blue;">
+        <input type="checkbox" checked>
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:green;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:brown;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color: yellow;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:orange;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:purple;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:black;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker"style="background-color:#1481b8;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:aquamarine;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:darkblue;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:turquoise;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:burlywood;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+          <label class="brick tile-picker" style="background-color:springgreen;">
+        <input type="checkbox">
+        <i class="tile-checked"></i>
+      </label>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+        <button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    <script>
+                // Optional code
+
+        // Tile Picker Active Border
+        $(document).on("click", ".tile-picker input", function(e) {
+            if ($(this).is(":checked")) {
+            $(this).closest(".tile-picker").addClass("active");
+            } else {
+            $(this).closest(".tile-picker").removeClass("active");
+            }
+        });
+  
+        /*  ==========================================
+            SHOW UPLOADED IMAGE
+        * ========================================== */
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+        
+                reader.onload = function (e) {
+                    $('#imageResult')
+                        .attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        $(function () {
+            $('#upload').on('change', function () {
+                readURL(input);
+            });
+        });
+        
+        /*  ==========================================
+            SHOW UPLOADED IMAGE NAME
+        * ========================================== */
+        var input = document.getElementById( 'upload' );
+        var infoArea = document.getElementById( 'upload-label' );
+        
+        input.addEventListener( 'change', showFileName );
+        function showFileName( event ) {
+          var input = event.srcElement;
+          var fileName = input.files[0].name;
+          infoArea.textContent = 'File name: ' + fileName;
+        }
+        </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+</html>
